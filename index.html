@@ -1,17 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <title>Aplikasi Pengelolaan Buku</title>
+    <style>
+      /* Tambahkan styling sesuai kebutuhan Anda */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .bookshelf {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+      .bookshelf div {
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 45%;
+      }
+    </style>
   </head>
   <body>
-    <h2 id="pesan">Selamat Datang!</h2>
-    <!-- INTERNAL JAVASCRIPT -->
+    <h1>Aplikasi Pengelolaan Buku</h1>
 
-    <script src="scripts/welcome.js">
-      <!-- EXTERNAL JAVASCRIPT -->
-           // Silahkan aktifkan kode dibawah ini dengan hapus komen
-           // const tamu = prompt('Siapakah anda?');
-           // alert('Selamat datang, ' + tamu + '!');
+    <div>
+      <label for="title">Judul Buku:</label>
+      <input type="text" id="title" placeholder="Masukkan judul buku" />
+
+      <label for="author">Penulis:</label>
+      <input type="text" id="author" placeholder="Masukkan nama penulis" />
+
+      <label for="status">Status:</label>
+      <select id="status">
+        <option value="belumSelesai">Belum selesai dibaca</option>
+        <option value="selesai">Selesai dibaca</option>
+      </select>
+
+      <button onclick="tambahBuku()">Tambah Buku</button>
+    </div>
+
+    <div class="bookshelf">
+      <div>
+        <h2>Belum Selesai Dibaca</h2>
+        <ul id="belumSelesai"></ul>
+      </div>
+      <div>
+        <h2>Selesai Dibaca</h2>
+        <ul id="selesai"></ul>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadBooks();
+      });
+
+      function tambahBuku() {
+        const title = document.getElementById("title").value;
+        const author = document.getElementById("author").value;
+        const status = document.getElementById("status").value;
+
+        if (title === "" || author === "") {
+          alert("Judul dan penulis buku harus diisi!");
+          return;
+        }
+
+        const book = {
+          title: title,
+          author: author,
+          status: status,
+        };
+
+        let books = getBooks();
+        books.push(book);
+        localStorage.setItem("books", JSON.stringify(books));
+
+        loadBooks();
+        resetForm();
+      }
+
+      function loadBooks() {
+        const belumSelesaiList = document.getElementById("belumSelesai");
+        const selesaiList = document.getElementById("selesai");
+
+        belumSelesaiList.innerHTML = "";
+        selesaiList.innerHTML = "";
+
+        const books = getBooks();
+
+        books.forEach((book) => {
+          const li = document.createElement("li");
+          li.innerHTML = `${book.title} oleh ${book.author} <button onclick="pindahRak('${book.title}', '${book.status}')">Pindah Rak</button> <button onclick="hapusBuku('${book.title}')">Hapus</button>`;
+
+          if (book.status === "belumSelesai") {
+            belumSelesaiList.appendChild(li);
+          } else {
+            selesaiList.appendChild(li);
+          }
+        });
+      }
+
+      function pindahRak(title, status) {
+        let books = getBooks();
+
+        const index = books.findIndex((book) => book.title === title);
+
+        if (status === "belumSelesai") {
+          books[index].status = "selesai";
+        } else {
+          books[index].status = "belumSelesai";
+        }
+
+        localStorage.setItem("books", JSON.stringify(books));
+        loadBooks();
+      }
+
+      function hapusBuku(title) {
+        let books = getBooks();
+        books = books.filter((book) => book.title !== title);
+        localStorage.setItem("books", JSON.stringify(books));
+        loadBooks();
+      }
+
+      function getBooks() {
+        return JSON.parse(localStorage.getItem("books")) || [];
+      }
+
+      function resetForm() {
+        document.getElementById("title").value = "";
+        document.getElementById("author").value = "";
+        document.getElementById("status").value = "belumSelesai";
+      }
     </script>
   </body>
 </html>
