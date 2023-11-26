@@ -43,7 +43,7 @@ function createBook(idBook, inputBookTitle, inputBookAuthor, inputBookYear, inpu
   const br = document.createElement("br");
 
   const cardContainer = document.createElement("div");
-  cardContainer.classList.add("card-body", "border-start", "border-4", "border-info", "d-flex", "justify-content-between");
+  cardContainer.classList.add("card-body", "border-start", "border-4", "border-danger", "d-flex", "justify-content-between");
 
   const cardContent = document.createElement("div");
   cardContent.classList.add("card-content");
@@ -101,7 +101,7 @@ function createActionDelete(idBook) {
 
 function createActionRead(idBook) {
   const action = document.createElement("button");
-  action.classList.add("btn", "btn-sm", "btn-outline-primary");
+  action.classList.add("btn", "btn-sm", "btn-outline-success");
   action.innerHTML = '<i class="bi bi-check"></i>';
 
   action.addEventListener("click", function () {
@@ -128,7 +128,7 @@ function createActionRead(idBook) {
 
 function createActionUndo(idBook) {
   const action = document.createElement("button");
-  action.classList.add("btn", "btn-sm", "btn-outline-secondary");
+  action.classList.add("btn", "btn-sm", "btn-outline-warning");
   action.innerHTML = '<i class="bi bi-arrow-counterclockwise"></i>';
 
   action.addEventListener("click", function () {
