@@ -32,7 +32,7 @@ function composeBookObject(id, title, author, year, isComplete) {
     id,
     title,
     author,
-    year,
+    year: parseInt(year, 10),
     isComplete,
   };
 }

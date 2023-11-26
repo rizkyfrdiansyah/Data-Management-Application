@@ -5,8 +5,13 @@ function addBook() {
   const idBook = +new Date();
   const inputBookTitle = document.getElementById("inputBookTitle").value;
   const inputBookAuthor = document.getElementById("inputBookAuthor").value;
-  const inputBookYear = document.getElementById("inputBookYear").value;
+  const inputBookYear = parseInt(document.getElementById("inputBookYear").value, 10);
   const inputBookIsComplete = document.getElementById("inputBookIsComplete").checked;
+
+  if (!inputBookTitle || !inputBookAuthor || !inputBookYear) {
+    alert("TOLONG DONG LENGKAPIN SEMUA KOLOM SEBELUM NAMBAHIN BUKU!");
+    return;
+  }
 
   const book = createBook(idBook, inputBookTitle, inputBookAuthor, inputBookYear, inputBookIsComplete);
   const bookObject = composeBookObject(idBook, inputBookTitle, inputBookAuthor, inputBookYear, inputBookIsComplete);
